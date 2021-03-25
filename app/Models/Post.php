@@ -9,13 +9,20 @@ class Post extends Model
 {
     use HasFactory;
 
+
+    //FUNCION PARA CAMBIAR ID POR SLUG EN LAS URLS
+    public function getRouteKeyName()
+    {
+        return "slug";
+    }
+
     //RELACION UNO A MUCHOS INVERSA
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function category()
+    public function categorypost()
     {
         return $this->belongsTo(Categorypost::class);
     }

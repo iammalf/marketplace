@@ -25,7 +25,7 @@
 
                     <div class="px-2 md:px-4 lg:px-4">
 
-                        <div class="container mx-auto px-2 md:px-6 lg:px-6">
+                        <div class="container mx-auto px-2 md:px-4 lg:px-4">
                             <div class="flex flex-wrap">
 
                                 <div class="w-full lg:w-2/3 px-2 md:px-6 lg:px-6">
@@ -34,22 +34,52 @@
                                         <h1 class="text-4xl font-semibold leading-normal mb-2 text-black mb-2">
                                             {{ $post->name }}
                                         </h1>
-                                        <p class="text-lg text-gray-900 font-bold">
+                                        <p>Categoría: <a href=""
+                                                class="
+                                            text-red-400 hover:text-red-600 font-bold">{{ $post->categorypost->name }}</a></p>
+                                        <h2 class="text-lg text-gray-900 font-bold">
                                             {{ $post->extract }}
-                                        </p>
+                                        </h2>
                                         <div class="mt-10 py-10 border-t border-gray-300">
                                             <p class="text-base text-black text-base">
                                                 {{ $post->body }}
                                             </p>
 
                                         </div>
+
+                                        <div class="mt-6">
+                                            <h2 class="font-bold text-gray-600">
+                                                Comparte en Redes Sociales
+                                            </h2>
+                                            <button
+                                                class="bg-white text-blue-400 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+                                                type="button">
+                                                <i class="flex fab fa-twitter"></i>
+                                            </button>
+                                            <button
+                                                class="bg-white text-blue-600 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+                                                type="button">
+                                                <i class="flex fab fa-facebook-square"></i>
+                                            </button>
+                                            <button
+                                                class="bg-white text-green-400 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+                                                type="button">
+                                                <i class="fab fa-whatsapp"></i>
+                                            </button>
+                                            <button
+                                                class="bg-white text-gray-900 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+                                                type="button">
+                                                <i class="fab fa-instagram"></i>
+                                            </button>
+                                        </div>
+
                                     </div>
 
                                 </div>
 
                                 <aside class="w-full lg:w-1/3 px-2 md:px-6 lg:px-6">
                                     <div class="mt-12 mb-10">
-                                        <h2 class="text-xl font-semibold leading-normal mb-2 text-gray-800 mb-2">
+                                        <h2 class="text-xl font-bold leading-normal mb-2 text-gray-800 mb-2">
                                             Publicidad
                                         </h2>
                                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla quos at
@@ -60,7 +90,7 @@
 
                                         <br>
 
-                                        <h2 class="text-xl font-semibold leading-normal mb-2 text-gray-800 mb-2">
+                                        <h2 class="text-xl font-bold leading-normal mb-2 text-gray-800 mb-2">
                                             Post Relacionados
                                         </h2>
                                         <ul>
@@ -70,7 +100,8 @@
                                                         <img src="{{ Storage::url($similar->image->url) }}"
                                                             alt="{{ $similar->name }}"
                                                             class="w-36 h-20 object-cover object-center">
-                                                        <span class="ml-2 text-gray-600">{{ $similar->name }}</span>
+                                                        <h2 class="ml-2 text-gray-500 hover:text-gray-700 font-bold">
+                                                            {{ $similar->name }}</h2>
                                                     </a>
                                                 </li>
                                             @endforeach
@@ -78,7 +109,7 @@
 
                                         <br>
 
-                                        <h2 class="text-xl font-semibold leading-normal mb-2 text-gray-800 mb-2">
+                                        <h2 class="text-xl font-bold leading-normal mb-2 text-gray-800 mb-2">
                                             Publicidad
                                         </h2>
                                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla quos at
