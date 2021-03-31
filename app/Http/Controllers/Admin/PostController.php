@@ -6,6 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Post;
+use App\Models\Categorypost;
+use App\Models\Tag;
+
+use Illuminate\Support\Facades\Storage;
+
+use App\Http\Requests\StorePostRequest;
 
 class PostController extends Controller
 {
@@ -16,7 +22,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        $posts = Post::where('user_id', auth()->user()->id)->get();
+        // $posts = Post::all();
         return view('admin.posts.index', compact('posts'));
     }
 
@@ -27,7 +34,9 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create');
+        $categorypost = CategoryPost::pluck('name', 'id');
+        $tags = Tag::all();
+        return view('admin.posts.create', compact('categorypost', 'tags'));
     }
 
     /**
@@ -36,9 +45,24 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePostRequest $request)
     {
-        //
+
+        $post = Post::create($request->all());
+
+        if ($request->file('file')) {
+            $url = Storage::put('posts', $request->file('file'));
+
+            $post->image()->create([
+                'url' => $url
+            ]);
+        }
+
+        if ($request->tags) {
+            $post->tags()->attach($request->tags);
+        }
+
+        return redirect()->route('admin.posts.index');
     }
 
     /**
@@ -47,9 +71,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Post $post)
     {
-        //
+        return view('admin.posts.show', compact('post'));
     }
 
     /**
@@ -58,9 +82,11 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        //
+        $categorypost = CategoryPost::pluck('name', 'id');
+        $tags = Tag::all();
+        return view('admin.posts.edit', compact('post', 'categorypost', 'tags'));
     }
 
     /**
@@ -70,9 +96,33 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StorePostRequest $request, Post $post)
     {
-        //
+        $post->update($request->all());
+
+        if ($request->file('file')) {
+
+            $url = Storage::put('posts', $request->file('file'));
+
+            if ($post->image) {
+
+                Storage::delete($post->image->url);
+
+                $post->image->update([
+                    'url' => $url
+                ]);
+            } else {
+                $post->image()->create([
+                    'url' => $url
+                ]);
+            }
+        }
+
+        if ($request->tags) {
+            $post->tags()->sync($request->tags);
+        }
+
+        return redirect()->route('admin.posts.edit', $post)->with('info', 'El post se actualizó con éxito');
     }
 
     /**
@@ -81,8 +131,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return redirect()->route('admin.posts.index')->with('info', 'El Post fue eliminado con éxito');
     }
 }

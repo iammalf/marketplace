@@ -135,7 +135,13 @@
                                     <div class="">
                                         <div class="">
                                             <!-- Insert your svg or image here -->
-                                            <img src="{{ Storage::url($post->image->url) }}" alt="">
+                                            @if ($post->image)
+                                                <img src="{{ Storage::url($post->image->url) }}"
+                                                    alt="{{ $post->name }}">
+                                            @else
+                                                <img src="https://cdn.pixabay.com/photo/2018/06/10/13/41/rice-3466518_960_720.jpg"
+                                                    alt="{{ $post->name }}">
+                                            @endif
                                         </div>
                                         <div class="p-4">
                                             <a href="{{ route('posts.show', $post) }}">

@@ -35,10 +35,10 @@
                         <tr>
                             <td>{{ $post->id }}</td>
                             <td>{{ $post->name }}</td>
-                            <td width="10px" align="center"><a href="{{ route('admin.categoriesposts.edit', $post) }}"
+                            <td width="10px" align="center"><a href="{{ route('admin.posts.edit', $post) }}"
                                     class="btn btn-primary btn-sm">Editar</a></td>
                             <td width="10px" align="center">
-                                <form action="{{ route('admin.categoriesposts.destroy', $post) }}" method="post">
+                                <form action="{{ route('admin.posts.destroy', $post) }}" method="post">
                                     @csrf
                                     @method('delete')
                                     <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>

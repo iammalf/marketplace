@@ -9,6 +9,11 @@ class Post extends Model
 {
     use HasFactory;
 
+    //CAMPOS QUE SE GUARDAN POR ASIGNACION MASIVA
+    //protected $fillable = ['name', 'slug', 'extract', 'body', 'status', 'user_id', 'categorypost_id'];
+
+    //CAMPOS QUE NO SE GUARDAN POR ASIGNACION MAVIVA
+    protected $guarded = ['id', 'created_at', 'updated_at'];
 
     //FUNCION PARA CAMBIAR ID POR SLUG EN LAS URLS
     public function getRouteKeyName()

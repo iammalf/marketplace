@@ -4,7 +4,7 @@
 
         <section class="relative block" style="height: 500px;">
             <div class="absolute top-0 w-full h-full bg-center bg-cover"
-                style='background-image: url("{{ Storage::url($post->image->url) }}");'>
+                style='background-image: url(@if ($post->image) {{ Storage::url($post->image->url) }} @else https://cdn.pixabay.com/photo/2018/06/10/13/41/rice-3466518_960_720.jpg @endif);'>
                 <span id="blackOverlay" class="w-full h-full absolute opacity-50 bg-black"></span>
             </div>
             <div class="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden"
@@ -38,11 +38,11 @@
                                                 class="
                                             text-red-400 hover:text-red-600 font-bold">{{ $post->categorypost->name }}</a></p>
                                         <h2 class="text-lg text-gray-900 font-bold">
-                                            {{ $post->extract }}
+                                            {!! $post->extract !!}
                                         </h2>
                                         <div class="mt-10 py-10 border-t border-gray-300">
                                             <p class="text-base text-black text-base">
-                                                {{ $post->body }}
+                                                {!! $post->body !!}
                                             </p>
 
                                         </div>
@@ -97,9 +97,15 @@
                                             @foreach ($similares as $similar)
                                                 <li class="mb-4">
                                                     <a href="{{ route('posts.show', $similar) }}" class="flex">
-                                                        <img src="{{ Storage::url($similar->image->url) }}"
-                                                            alt="{{ $similar->name }}"
-                                                            class="w-36 h-20 object-cover object-center">
+                                                        @if ($similar->image)
+                                                            <img src="{{ Storage::url($similar->image->url) }}"
+                                                                alt="{{ $similar->name }}"
+                                                                class="w-36 h-20 object-cover object-center">
+                                                        @else
+                                                            <img src="https://cdn.pixabay.com/photo/2018/06/10/13/41/rice-3466518_960_720.jpg"
+                                                                alt="{{ $similar->name }}"
+                                                                class="w-36 h-20 object-cover object-center">
+                                                        @endif
                                                         <h2 class="ml-2 text-gray-500 hover:text-gray-700 font-bold">
                                                             {{ $similar->name }}</h2>
                                                     </a>
